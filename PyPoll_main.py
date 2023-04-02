@@ -60,14 +60,16 @@ print(winner)
 
 
 #Election results report
-print('Election Results')
-print('-'*20)
-print('Total Votes: ' + str(total_count))
-print('-'*20)
-print('Charles Casper Stockham: ' +str(charles_pcnt)+'% ' +str(charles_vote))
-print('Diane DeGette: ' +str(diana_pcnt)+'% ' +str(diana_vote))
-print('Raymon Anthony Doane: ' +str(raymon_pcnt)+'% ' +str(raymon_vote))
-print('-'*20)
-print('Winner: '+ str(winner))
-print('-'*20)
+with open("pypoll_report.txt", "w") as file:
+    file.write('Election Results')
+    file.write('-'*20)
+    file.write('Total Votes: ' + str(total_count))
+    file.write('-'*20)
+    file.write('Charles Casper Stockham: ' +str(charles_pcnt)+'% ' +str(charles_vote))
+    file.write('Diane DeGette: ' +str(diana_pcnt)+'% ' +str(diana_vote))
+    file.write('-'*20)
+    file.write('Winner: '+ str(winner))
+    file.write('-'*20)
+file.close()
+
 

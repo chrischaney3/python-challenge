@@ -1,85 +1,40 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[47]:
 
-
-#Import Dependecies
+#Import Dependencies
 import pandas as pd
 import datetime as datetime
 
-
-# In[48]:
-
-
 #Read the csvfile
 df = pd.read_csv("budget_data.csv")
-df.head()
-
-
-# In[49]:
-
-
-#Check data info
-df.info()
-
-
-# In[50]:
-
 
 #The total number of months included in the dataset
 total_months = df['Date'].nunique()
-print(total_months)
-
-
-# In[53]:
-
 
 #The net total amount of "Profit/Losses" over the entire period
 net_amount = df['Profit/Losses'].sum()
-print(net_amount)
-
-
-# In[57]:
-
 
 #The changes in "Profit/Losses" over the entire period, and then the average of those changes
-avg_amount = df['Profit/Losses'].mean()
-print(avg_amount)
-
-
-# In[63]:
-
+changes = df['Profit/Losses'].diff()
+avg_change = changes.mean()
 
 #The greatest increase in profits (date and amount) over the entire period
+max_increase = changes.max()
+max_date = df.loc[changes.idxmax(), 'Date']
+
 #The greatest decrease in profits (date and amount) over the entire period
-max_profit = df.max()
-min_profit = df.min()
-print(max_profit)
-print(min_profit)
-
-
-# In[64]:
-
+max_decrease = changes.min()
+min_date = df.loc[changes.idxmin(), 'Date']
 
 #Printing the report
-print ("Financial Analysis")
-print ("-"*20)
-print (f'Total Months: ' +str( total_months))
-print (f'Total: $' + str(net_amount))
-print (f'Average Change: $' + str(avg_amount))
-print (f'Greatest Increase in Profits: ' +str(max_profit))
-print (f'Greatest Decrease in Profits: ' +str(min_profit))
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
+with open("pybank_report.txt", "w") as file:
+    file.write("Financial Analysis\n")
+    file.write("-"*20 + "\n")
+    file.write(f'Total Months: {total_months}\n')
+    file.write(f'Total: ${net_amount:,.0f}\n')
+    file.write(f'Average Change: ${avg_change:,.2f}\n')
+    file.write(f'Greatest Increase in Profits: {max_date} (${max_increase:,.0f})\n')
+    file.write(f'Greatest Decrease in Profits: {min_date} (${max_decrease:,.0f})\n')
+file.close()
 
